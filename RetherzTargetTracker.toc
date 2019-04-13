@@ -1,6 +1,6 @@
 ## Interface: 11200
 ## Title: RetherzTargetTracker
-## Version: d1
+## Version: d2
 ## Notes: Advanced Raid Target tracking with debuff timers.
 ## DefaultState: enabled
 ## Author: Retherz

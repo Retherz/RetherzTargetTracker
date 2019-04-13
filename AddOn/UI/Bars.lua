@@ -42,6 +42,7 @@ function RTT_CreateBars()
     else
       return
     end
+    RTT_SpellCastSent();
     RTT_UpdateHealth();
     for bar=1,8 do
       if(RTT_Symbols[bar].state) then

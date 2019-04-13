@@ -107,6 +107,8 @@ function RTT_SendSpellData(...)
 end
 
 function RTT_SpellCastSent()
-  RTT_SendSpellData(RTT_CastSpellData.name, RTT_CastSpellData.symbol);
+  if(not RTT_CastSpellData.sent and GetTime() - RTT_CastSpellData.timestamp > 0) then
+    RTT_SendSpellData(RTT_CastSpellData.name, RTT_CastSpellData.symbol);
     RTT_CastSpellData.sent = true;
+  end
 end

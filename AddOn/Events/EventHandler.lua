@@ -5,10 +5,8 @@ function RTT_OnEvent()
   elseif(event == "CHAT_MSG_COMBAT_HOSTILE_DEATH") then
     if(strfind(arg1, "dies.") and RTT_TargetsExist()) then
       local dead = string.gsub(arg1, " dies.", "");
-      DEFAULT_CHAT_FRAME:AddMessage(dead);
       local t = RTT_GetExistingTargets();
         for k, v in pairs(t) do
-            DEFAULT_CHAT_FRAME:AddMessage(k);
           if(RTT_Symbols[v].target == dead) then
             RTT_KillBar(v);
           end
@@ -28,11 +26,9 @@ function RTT_OnEvent()
     end
   else
     if(event == "CHAT_MSG_SPELL_SELF_DAMAGE" and strfind(arg1, RTT_CastSpellData.name)) then
+      DEFAULT_CHAT_FRAME:AddMessage(arg1);
         RTT_CastSpellData.sent = true;
       return;
-    end
-    if(not RTT_CastSpellData.sent and GetTime() - RTT_CastSpellData.timestamp > 0) then
-      RTT_SpellCastSent();
     end
   end
 end
