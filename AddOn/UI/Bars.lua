@@ -29,12 +29,20 @@ function RTT_CreateBars()
     f:SetHeight((BarHeight) * Scale);
     f:SetPoint("TOPLEFT", Border * Scale, -(Border + ((BarHeight + Padding) * (8 - i))) * Scale);
   	f:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background"});
+    f:SetAlpha(0.5);
   	f:SetBackdropColor(0,0,0,1);
     RTT_CreateBarSymbolTexture(f, i);
     RTT_CreateBarHealthLabel(f, i);
     RTT_CreateBarNameLabel(f, i);
     RTT_CreateBarDebuffTextures(f, i);
-    f:SetAlpha(0.5);
+    local button = CreateFrame("Button", "RTT_Bar" .. i .. "Button", f);
+    button.target = i;
+  	button:SetPoint("TOPLEFT", Border * Scale, 0);
+    button:SetWidth((BarWidth) * Scale);
+    button:SetHeight((BarHeight) * Scale);
+      button:SetScript("OnClick", function (self)
+        RTT_Target(button.target);
+      end);
   end
   RTT_Frame:SetScript("OnUpdate", function(self)
     if(GetTime() >= nextUpdate) then
@@ -44,6 +52,7 @@ function RTT_CreateBars()
     end
     RTT_SpellCastSent();
     RTT_UpdateHealth();
+    RTT_TestTarget();
     for bar=1,8 do
       if(RTT_Symbols[bar].state) then
         for debuff=1,RTT_TrackedDebuffCount do
@@ -91,6 +100,7 @@ function RTT_CreateBarDebuffTextures(parent, i)
   	f:SetPoint("TOPLEFT", BarHeight + Padding * 7 + n * (BarHeight / 2), -(BarHeight / 2 - Padding * 3));
     f:SetHeight((BarHeight / 2.2) * Scale);
     f:SetWidth((BarHeight / 2.2) * Scale);
+    f:SetAlpha(0.25);
     RTT_CreateBarDebuffLabel(parent, i, n, BarHeight + Padding * 7 + n * (BarHeight / 2), -(BarHeight / 2 - Padding * 3));
   end
 end
@@ -185,6 +195,7 @@ function RTT_ActivateBar(bar, name)
     for i=1, 4 do
       local label = getglobal("RTT_Bar" .. bar .. "DebuffTextureLabel" .. i);
       local texture = getglobal("RTT_Bar" .. bar .. "DebuffTexture" .. i);
+      RTT_BarData[bar].debuffs[i].timestamp = 0;
       texture:SetAlpha(0.25);
       label:SetAlpha(0.25);
       label:SetText("");

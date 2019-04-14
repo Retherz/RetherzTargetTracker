@@ -13,20 +13,9 @@ function RTT_OnEvent()
         end
     end
   elseif(event == "PLAYER_TARGET_CHANGED") then
-    if(UnitExists("target") and not UnitIsDead("target")) then
-      local i = GetRaidTargetIndex("target");
-      if(i ~= nil and RTT_Symbols[i].target ~= UnitName("target") and not UnitIsFriend("target", "player")) then
-        if((IsPartyLeader() or IsRaidLeader() or IsRaidOfficer())) then
-          RTT_SendSetTarget("target", i);
-        else
-          local c = UnitName("target");
-          RTT_ActivateBar(i, c);
-        end
-      end
-    end
+    RTT_TestTarget();
   else
     if(event == "CHAT_MSG_SPELL_SELF_DAMAGE" and strfind(arg1, RTT_CastSpellData.name)) then
-      DEFAULT_CHAT_FRAME:AddMessage(arg1);
         RTT_CastSpellData.sent = true;
       return;
     end

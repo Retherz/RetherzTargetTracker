@@ -50,6 +50,8 @@ RTT_Symbols = {
   },
 }
 
+local AssignIndex = 8;
+
 function RTT_TexCoord(i)
   i = i / 4;
   if(i > 1) then
@@ -68,10 +70,31 @@ function RTT_TargetsExist()
   return false;
 end
 
-local AssignIndex = 8;
+function RTT_TestTarget()
+  if(UnitExists("target") and not UnitIsDead("target")) then
+    local i = GetRaidTargetIndex("target");
+    if(i ~= nil and RTT_Symbols[i].target ~= UnitName("target") and not UnitIsFriend("target", "player")) then
+      if((IsPartyLeader() or IsRaidLeader() or IsRaidOfficer())) then
+        RTT_SendSetTarget("target", i);
+      else
+        local c = UnitName("target");
+        RTT_ActivateBar(i, c);
+      end
+    elseif(i ~= nil and UnitIsFriend("target", "player")) then
+      RTT_Remove("target");
+    end
+  end
+end
 
-local function CanSetTargetUnit(unit)
-  return (UnitExists(unit) and (UnitIsPartyLeader("player") or UnitIsGroupAssistant("player")));
+
+local function CanSetTargetUnit()
+  if(GetNumRaidMembers() > 0) then
+    local _, rank, _, _, _, _, _, _, _ = GetRaidRosterInfo("player");
+    return  rank > 0;
+  else
+      return UnitIsPartyLeader("player");
+  end
+  return false;
 end
 
 function RTT_Target(symbol)
@@ -115,7 +138,7 @@ function RTT_GetTarget(target, symbol)
 end
 
 function RTT_AssignFree()
-  if(CanSetTargetUnit("target")) then
+  if(CanSetTargetUnit()) then
     for i=8, 1, -1 do
       if(RTT_Symbols[i].state ~= true) then
         RTT_Remove("target");
@@ -130,7 +153,7 @@ function RTT_AssignFree()
 end
 
 function RTT_AssignFreeMO()
-  if(CanSetTargetUnit("mouseover")) then
+  if(CanSetTargetUnit()) then
     for i=8, 1, -1 do
       if(RTT_Symbols[i] ~= true) then
         RTT_Remove("mouseover");
@@ -145,7 +168,7 @@ function RTT_AssignFreeMO()
 end
 
 function RTT_AssignNext()
-  if(CanSetTargetUnit("target")) then
+  if(CanSetTargetUnit()) then
     RTT_Remove("target");
     RTT_Symbols[AssignIndex].state = true;
     SetRaidTarget("target", AssignIndex);
@@ -162,7 +185,7 @@ function RTT_AssignNext()
 end
 
 function RTT_AssignNextMO()
-  if(CanSetTargetUnit("mouseover")) then
+  if(CanSetTargetUnit()) then
     RTT_Remove("mouseover");
     RTT_Symbols[AssignIndex].state = true;
     SetRaidTarget("mouseover", AssignIndex);
@@ -179,7 +202,7 @@ function RTT_AssignNextMO()
 end
 
 function RTT_ClearSymbols()
-  if(not CanSetTargetUnit("player")) then
+  if(not CanSetTargetUnit()) then
     return
   end
 
@@ -218,7 +241,7 @@ function RTT_Remove(unit)
   if(i ~= 0 and i ~= nil) then
     RTT_Symbols[i].state = false;
     SetRaidTarget(unit, 0);
-    if(CanSetTargetUnit("player")) then
+    if(CanSetTargetUnit()) then
       RTT_SendTargetData("RM", i);
     end
     return true;
@@ -228,11 +251,13 @@ end
 
 function RTT_RecieveRemove(i)
   RTT_Symbols[i].state = false;
+  RTT_KillBar(i);
 end
 
 function RTT_RecieveClear()
   for i=1, 8 do
     RTT_Symbols[i].state = false;
+    RTT_KillBar(i);
   end
 end
 
