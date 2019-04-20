@@ -1,6 +1,7 @@
 # RetherzTargetTracker
 Raid target symbol tracking and targeting with debuff tracking.
 ```/rtt``` or ```/retherztargettracker``` to configure.
+![example_image](https://i.imgur.com/uNzq1xa.png)
 
 # Limitations
 Vanilla is highly limited with tracking targets. To be able to target these units you must have a raid member targeting it. 
