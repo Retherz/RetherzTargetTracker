@@ -90,11 +90,11 @@ function RTT_Config_CreateDebuffSelections()
       end
 
       UIDropDownMenu_Initialize(button, function(self, level, menuList)
-        local info = nil;
+        local info = {}
         local c = 1;
          for k,v in pairs(RTT_SpellData) do
            v = v["name"];
-            info = UIDropDownMenu_CreateInfo()
+            info = {}
             info.text = v
             info.value = v
             info.func = OnClick;
@@ -210,9 +210,9 @@ function RTT_Config_CreateTrackCount()
 
         UIDropDownMenu_Initialize(button, function(self, level, menuList)
           local c = 1;
-          local info = UIDropDownMenu_CreateInfo();
+          local info = {}
            for i=1,4 do
-              info = UIDropDownMenu_CreateInfo()
+              info = {}
               info.text = i
               info.value = i
               info.func = OnClick;

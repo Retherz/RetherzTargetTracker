@@ -1,5 +1,6 @@
 function RTT_HandleConfig()
   SLASH_RTT1 = "/rtt";
+  SLASH_RTT2 = "/retherztargettracker";
   SlashCmdList["RTT"] = RTT_ConfigGUIToggle;
   RetherzTargetTracker = RetherzTargetTracker ~= nil and RetherzTargetTracker or {};
   if(RetherzTargetTracker.Visible == nil) then
