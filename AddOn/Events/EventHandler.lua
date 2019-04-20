@@ -24,12 +24,14 @@ end
 
 function RTT_OnLoad()
   if(RTT_PREFIX_TARGET ~= nil) then
+    RTT_HandleConfig();
     local _, englishClass = UnitClass("player");
     RTT_CommunicationInitialize();
     RTT_SetSpellID();
     RTT_SpellData_SetSpellTable(englishClass);
     RTT_CreateGUI();
     RTT_AddOnFrame:SetScript("OnUpdate", nil);
+    RTT_CreateConfigGUI();
   end
 end
 

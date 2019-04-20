@@ -51,6 +51,7 @@ RTT_Symbols = {
 }
 
 local AssignIndex = 8;
+local TargetIndex = 8;
 
 function RTT_TexCoord(i)
   i = i / 4;
@@ -74,7 +75,7 @@ function RTT_TestTarget()
   if(UnitExists("target") and not UnitIsDead("target")) then
     local i = GetRaidTargetIndex("target");
     if(i ~= nil and RTT_Symbols[i].target ~= UnitName("target") and not UnitIsFriend("target", "player")) then
-      if((IsPartyLeader() or IsRaidLeader() or IsRaidOfficer())) then
+      if(RTT_PlayerHasPermission()) then
         RTT_SendSetTarget("target", i);
       else
         local c = UnitName("target");
@@ -84,31 +85,6 @@ function RTT_TestTarget()
       RTT_Remove("target");
     end
   end
-end
-
-
-local function CanSetTargetUnit()
-  if(GetNumRaidMembers() > 0) then
-    local _, rank, _, _, _, _, _, _, _ = GetRaidRosterInfo("player");
-    return  rank > 0;
-  else
-      return UnitIsPartyLeader("player");
-  end
-  return false;
-end
-
-function RTT_Target(symbol)
-  for i = 0, GetNumRaidMembers() do
-    if(RTT_GetTarget("raid" .. i .. "target", symbol)) then
-      return true;
-    end
-    for i = 0, GetNumPartyMembers() do
-      if(RTT_GetTarget("party" .. i .. "target", symbol)) then
-        return true;
-      end
-    end
-  end
-  return false;
 end
 
 function RTT_GetExistingTargets()
@@ -137,111 +113,12 @@ function RTT_GetTarget(target, symbol)
   return false;
 end
 
-function RTT_AssignFree()
-  if(CanSetTargetUnit()) then
-    for i=8, 1, -1 do
-      if(RTT_Symbols[i].state ~= true) then
-        RTT_Remove("target");
-        SetRaidTarget("target", i);
-        RTT_SendSetTarget("target", i);
-        RTT_Symbols[i].state = true;
-        return true;
-      end
-    end
-  end
-  return false;
-end
-
-function RTT_AssignFreeMO()
-  if(CanSetTargetUnit()) then
-    for i=8, 1, -1 do
-      if(RTT_Symbols[i] ~= true) then
-        RTT_Remove("mouseover");
-        SetRaidTarget("mouseover", i);
-        RTT_SendSetTarget("mouseover", i);
-        RTT_Symbols[i].state = true;
-        return true;
-      end
-    end
-  end
-  return false;
-end
-
-function RTT_AssignNext()
-  if(CanSetTargetUnit()) then
-    RTT_Remove("target");
-    RTT_Symbols[AssignIndex].state = true;
-    SetRaidTarget("target", AssignIndex);
-    RTT_SendSetTarget("target", AssignIndex);
-    if(AssignIndex == 1) then
-      AssignIndex = 8;
-    else
-      AssignIndex = AssignIndex - 1;
-    end
-    return true;
-  else
-    return false;
-  end
-end
-
-function RTT_AssignNextMO()
-  if(CanSetTargetUnit()) then
-    RTT_Remove("mouseover");
-    RTT_Symbols[AssignIndex].state = true;
-    SetRaidTarget("mouseover", AssignIndex);
-    RTT_SendSetTarget("mouseover", AssignIndex);
-    if(AssignIndex == 1) then
-      AssignIndex = 8;
-    else
-      AssignIndex = AssignIndex - 1;
-    end
-    return true;
-  else
-    return false;
-  end
-end
-
-function RTT_ClearSymbols()
-  if(not CanSetTargetUnit()) then
-    return
-  end
-
-  for i =1, 8 do
-    SetRaidTarget("player", i);
-    RTT_Symbols[i].state = false;
-  end
-  AssignIndex = 8;
-  RTT_SendTargetData("C");
-  hasCleared = true;
-end
-
-function RTT_Clear()
-  if(hasCleared) then
-    hasCleared = false;
-    SetRaidTarget("player", 0);
-  end
-end
-
-function RTT_ClearTarget()
-  if(not UnitExists("target")) then
-    return false;
-  end
-  RTT_Remove("target");
-end
-
-function RTT_ClearMO()
-  if(not UnitExists("mouseover")) then
-    return false;
-  end
-  RTT_Remove("mouseover");
-end
-
 function RTT_Remove(unit)
   local i = GetRaidTargetIndex(unit);
   if(i ~= 0 and i ~= nil) then
     RTT_Symbols[i].state = false;
     SetRaidTarget(unit, 0);
-    if(CanSetTargetUnit()) then
+    if(RTT_PlayerHasPermission()) then
       RTT_SendTargetData("RM", i);
     end
     return true;
@@ -264,4 +141,30 @@ end
 function RTT_SetHealth(unit, health)
   RTT_Symbols[unit].health = health;
   getglobal("RTT_Bar" .. unit .. "HealthLabel"):SetText(health .. "%");
+end
+
+function RTT_NextTargetIndex()
+  local i = TargetIndex;
+  if(RTT_Symbols[i].state ~= false) then
+    RTT_TargetIndexIncrement();
+    return i;
+  else
+    for c=1, 8 do
+      RTT_TargetIndexIncrement();
+      if(RTT_Symbols[c].state ~= false) then
+        RTT_TargetIndexIncrement();
+        return c;
+      end
+    end
+  end
+end
+
+function RTT_TargetIndexIncrement()
+  if(TargetIndex == 1) then
+    TargetIndex = 8;
+  end
+end
+
+function RTT_TargetIndexReset()
+  TargetIndex = 8;
 end

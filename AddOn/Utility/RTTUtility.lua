@@ -26,3 +26,15 @@ end
 function RTT_Round(value)
 	return math.floor(value + 0.5)
 end
+
+function RTT_TableClone(t)
+  return {unpack(t)};
+end
+
+function RTT_UseAction()
+  if(RetherzTargetTracker.UseAction ~= 0) then
+    if not IsCurrentAction(RetherzTargetTracker.UseAction) then
+      UseAction(RetherzTargetTracker.UseAction);
+    end
+  end
+end

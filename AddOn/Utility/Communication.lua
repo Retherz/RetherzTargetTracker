@@ -24,12 +24,11 @@ function RTT_HandleTargetData(data, sender)
       return;
     end
     RTT_RecieveClear();
-    DEFAULT_CHAT_FRAME:AddMessage(sender .. " cleared all target symbols.");
   else
     local c, i = RTT_StringSplit(data, "_");
     i = tonumber(i);
     n = tonumber(c);
-    if(n ~= nil and n > 0 and n < 9) then
+    if(n ~= nil and n > 0 and n < 9 and not RTT_Symbols[n].state) then
       RTT_SetHealth(n, i);
       return;
     end
@@ -46,7 +45,15 @@ end
 
 function RTT_HandleSpellData(data)
   local name, symbol = RTT_StringSplit(data, "_");
-  RTT_Bar_SetDebuff(tonumber(symbol), name);
+  if(name == "RM") then
+    local _, buffName, target = RTT_StringSplit(data, "_");
+    RTT_RecieveDebuff(tonumber(target), buffName);
+  elseif(name == "PM") then
+    local _, buffName, target = RTT_StringSplit(data, "_");
+    RTT_Bar_SetDebuffPermanent(tonumber(target), buffName);
+  else
+    RTT_Bar_SetDebuff(tonumber(symbol), name);
+  end
 end
 
 function RTT_SendAddonMessage(prefix, msg)
@@ -55,6 +62,10 @@ function RTT_SendAddonMessage(prefix, msg)
   else
     SendAddonMessage(prefix, msg, "RAID");
   end
+end
+
+function RTT_PlayerHasPermission()
+  return (IsPartyLeader() or IsRaidLeader() or IsRaidOfficer());
 end
 
 function RTT_SenderHasPermission(sender)
@@ -111,4 +122,12 @@ function RTT_SpellCastSent()
     RTT_SendSpellData(RTT_CastSpellData.name, RTT_CastSpellData.symbol);
     RTT_CastSpellData.sent = true;
   end
+end
+
+function RTT_SendUntrack(target, buffName)
+  RTT_SendSpellData("RM", buffName, target);
+end
+
+function RTT_SendPermanent(target, buffName)
+  RTT_SendSpellData("PM", buffName, target);
 end

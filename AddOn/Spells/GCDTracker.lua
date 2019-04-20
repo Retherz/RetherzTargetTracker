@@ -1,4 +1,5 @@
 local SpellID = nil;
+local playerClass = "";
 
 local GCDSpell = {
   ["WARRIOR"]  = {
@@ -55,12 +56,29 @@ function RTT_CastSpell(spell)
   end
 end
 
+function RTT_CastFFFeral()
+    CastSpellByName("Faerie Fire (Feral)");
+    if(SpellID == nil or playerClass ~= "DRUID" or GetRaidTargetIndex("target") == nil) then
+      return
+    end
+    local start, _ = GetSpellCooldown(SpellID, "spell");
+    if(GetTime() - start == 0) then
+      --store timestamp, unitname and unit symbol
+      RTT_CastSpellData.name = "Faerie Fire";
+      RTT_CastSpellData.timestamp = GetTime();
+      RTT_CastSpellData.symbol = GetRaidTargetIndex("target");
+      RTT_CastSpellData.sent = false;
+      --success, test with self_damage fail (miss, dodge)
+    end
+
+end
+
 function RTT_SetSpellID()
-  local _, englishClass = UnitClass("player");
+  _, playerClass = UnitClass("player");
   local i = 1
   while true do
    local spellName = GetSpellName(i, "spell")
-    if(spellName == GCDSpell[englishClass].spell) then
+    if(spellName == GCDSpell[playerClass].spell) then
       SpellID = i;
       return i;
     end
