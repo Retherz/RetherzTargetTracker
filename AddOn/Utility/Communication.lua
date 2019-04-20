@@ -26,10 +26,10 @@ function RTT_HandleTargetData(data, sender)
     RTT_RecieveClear();
   else
     local c, i = RTT_StringSplit(data, "_");
-    i = tonumber(i);
-    n = tonumber(c);
-    if(n ~= nil and n > 0 and n < 9 and not RTT_Symbols[n].state) then
-      RTT_SetHealth(n, i);
+    local hc = tonumber(c);
+    local n = tonumber(i);
+    if(n ~= nil and hc ~= nil and hc > 0 and hc < 9 and RTT_Symbols[hc].state) then
+      RTT_SetHealth(hc, n);
       return;
     end
     if(c == "RM") then
@@ -99,7 +99,7 @@ function RTT_SendTargetData(...)
 end
 
 function RTT_SendSetTarget(unit, i)
-  if(not UnitIsFriend(unit, "player")) then
+  if(not UnitIsFriend(unit, "player") and i ~= nil and UnitName(unit) ~= nil) then
     RTT_SendTargetData(UnitName(unit), i);
     RTT_SendTargetData(i, UnitHealth(unit));
   end

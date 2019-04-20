@@ -50,7 +50,6 @@ RTT_Symbols = {
   },
 }
 
-local AssignIndex = 8;
 local TargetIndex = 8;
 
 function RTT_TexCoord(i)
@@ -127,6 +126,9 @@ function RTT_Remove(unit)
 end
 
 function RTT_RecieveRemove(i)
+  if(i ~= nil or i < 1 or i > 8) then
+    return
+  end
   RTT_Symbols[i].state = false;
   RTT_KillBar(i);
 end

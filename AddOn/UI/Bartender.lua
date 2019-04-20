@@ -78,7 +78,9 @@ function RTT_KillBar(i)
 end
 
 function RTT_ActivateBar(bar, name)
-    getglobal("RTT_Bar" .. bar .. "NameLabel"):SetText(name);
+    bar = tonumber(bar);
+    local o = getglobal("RTT_Bar" .. bar .. "NameLabel");
+    o:SetText(name);
     RTT_Symbols[bar].target = name;
     RTT_Symbols[bar].state = true;
     local f = getglobal("RTT_Bar" .. bar);

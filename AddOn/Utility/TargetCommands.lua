@@ -1,3 +1,5 @@
+local AssignIndex = 8;
+
 function RTT_AssignFree()
   if(RTT_PlayerHasPermission()) then
     for i=8, 1, -1 do

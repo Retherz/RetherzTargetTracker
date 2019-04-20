@@ -77,7 +77,6 @@ function RTT_CreateBars()
     end
     RTT_SpellCastSent();
     RTT_UpdateHealth();
-    RTT_TestTarget();
     RTT_DebuffTestTarget();
     for bar=1,8 do
       if(RTT_Symbols[bar].state) then
