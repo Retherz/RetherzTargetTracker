@@ -1,5 +1,5 @@
 # RetherzTargetTracker
-Raid target symbol tracking and targeting with debuff tracking.
+Raid symbol targeting with debuff tracking.
 ```/rtt``` or ```/retherztargettracker``` to configure.
 ![example_image](https://i.imgur.com/uNzq1xa.png)
 
