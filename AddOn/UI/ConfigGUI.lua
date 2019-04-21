@@ -245,10 +245,10 @@ function RTT_Config_CreateButtons()
   button:SetWidth(128);
   button:SetText("Reset");
   button:SetScript("OnClick", function()
-    RetherzTargetTracker.X = 0;
-    RetherzTargetTracker.Y = 0;
+    RetherzTargetTracker.X = math.floor((GetScreenWidth() / 2) / (RetherzTargetTracker.Scale / 100) + RTT_Frame:GetWidth() / 2);
+    RetherzTargetTracker.Y = math.floor((GetScreenHeight() / 2) / (RetherzTargetTracker.Scale / 100)  + RTT_Frame:GetHeight() / 2);
     RTT_Frame:ClearAllPoints();
-    RTT_Frame:SetPoint("CENTER", 0, 0);
+    RTT_Frame:SetPoint("TOPRIGHT", UIParent, "BOTTOMLEFT", RetherzTargetTracker.X, RetherzTargetTracker.Y);
   end)
 
 end

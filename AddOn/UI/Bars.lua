@@ -15,8 +15,9 @@ function RTT_CreateGUIFrame()
   local f = CreateFrame("Frame", "RTT_Frame", UIParent);
   f:SetWidth((BarWidth + Border * 2));
   f:SetHeight((BarHeight * 8 + Padding * 7 + Border * 2));
-  f:SetPoint("CENTER", UIParent, "CENTER", RetherzTargetTracker.X, RetherzTargetTracker.Y);
+  RTT_Frame:SetPoint("TOPRIGHT", UIParent, "BOTTOMLEFT", RetherzTargetTracker.X, RetherzTargetTracker.Y);
 	f:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background"});
+  f:SetScale(RetherzTargetTracker.Scale / 100);
   if(not RetherzTargetTracker.Visible) then
     f:Hide();
   end
@@ -32,9 +33,9 @@ function RTT_CreateGUIFrame()
 	   RTT_Frame:StopMovingOrSizing();
 	   RTT_Frame.isMoving = false;
      --local _, _, _, x, y = RTT_Frame:GetPoint();
-     local x,y = RTT_Frame:GetRight(), RTT_Frame:GetBottom();
-     RetherzTargetTracker.X = x - GetScreenWidth() / 2 - RTT_Frame:GetWidth() / 2;
-     RetherzTargetTracker.Y = y - GetScreenHeight() / 2 + RTT_Frame:GetHeight() / 2;
+     local x,y = RTT_Frame:GetRight(), RTT_Frame:GetTop();
+     RetherzTargetTracker.X = x;
+     RetherzTargetTracker.Y = y;
 	  end
 	end)
 	RTT_Frame:SetScript("OnHide", function()

@@ -32,7 +32,8 @@ function RTT_OnLoad()
     RTT_CreateGUI();
     RTT_AddOnFrame:SetScript("OnUpdate", nil);
     RTT_CreateConfigGUI();
-    if(RetherzTargetTracker.X == 0 and RetherzTargetTracker.Y == 0) then
+    if(RetherzTargetTracker.X == math.floor((GetScreenWidth() / 2) / (RetherzTargetTracker.Scale / 100) + RTT_Frame:GetWidth() / 2)
+     and RetherzTargetTracker.Y == math.floor((GetScreenHeight() / 2) / (RetherzTargetTracker.Scale / 100)  + RTT_Frame:GetHeight() / 2)) then
       message("''/rtt' to configure Retherz Target Tracker.")
     end
   end

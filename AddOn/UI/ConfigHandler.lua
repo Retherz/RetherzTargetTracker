@@ -7,8 +7,8 @@ function RTT_HandleConfig()
     RetherzTargetTracker.Visible = true;
   end
   RetherzTargetTracker.Scale = RetherzTargetTracker.Scale ~= nil and RetherzTargetTracker.Scale or 100;
-  RetherzTargetTracker.X = RetherzTargetTracker.X ~= nil and RetherzTargetTracker.X or 0;
-  RetherzTargetTracker.Y = RetherzTargetTracker.Y ~= nil and RetherzTargetTracker.Y or 0;
+  RetherzTargetTracker.X = RetherzTargetTracker.X ~= nil and RetherzTargetTracker.X or math.floor((GetScreenWidth() / 2) / (RetherzTargetTracker.Scale / 100) + RTT_Frame:GetWidth() / 2);
+  RetherzTargetTracker.Y = RetherzTargetTracker.Y ~= nil and RetherzTargetTracker.Y or math.floor((GetScreenHeight() / 2) / (RetherzTargetTracker.Scale / 100)  + RTT_Frame:GetHeight() / 2);
   RetherzTargetTracker.UseAction = RetherzTargetTracker.UseAction ~= nil and RetherzTargetTracker.UseAction or 0;
   RetherzTargetTracker.DebuffCount = RetherzTargetTracker.DebuffCount ~= nil and RetherzTargetTracker.DebuffCount or 4;
   RetherzTargetTracker.Debuff1 = RetherzTargetTracker.Debuff1 ~= nil and RetherzTargetTracker.Debuff1 or "Sunder Armor";
