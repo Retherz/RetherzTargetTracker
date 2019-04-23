@@ -65,6 +65,11 @@ end
 function RTT_KillBar(i)
   for c=1, RetherzTargetTracker.DebuffCount do
     RTT_BarData[i].debuffs[c].timestamp = 0;
+    local label = getglobal("RTT_Bar" .. i .. "DebuffTextureLabel" .. c);
+    local texture = getglobal("RTT_Bar" .. i .. "DebuffTexture" .. c);
+    texture:SetAlpha(0.25);
+    label:SetAlpha(0.25);
+    label:SetText("");
   end
   local f = getglobal("RTT_Bar" .. i);
   f:SetAlpha(0.5);
@@ -80,6 +85,9 @@ end
 function RTT_ActivateBar(bar, name)
     bar = tonumber(bar);
     local o = getglobal("RTT_Bar" .. bar .. "NameLabel");
+    if(o == nil) then
+      return
+    end
     o:SetText(name);
     RTT_Symbols[bar].target = name;
     RTT_Symbols[bar].state = true;

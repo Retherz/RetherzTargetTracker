@@ -5,10 +5,9 @@ function RTT_OnEvent()
   elseif(event == "CHAT_MSG_COMBAT_HOSTILE_DEATH") then
     if(strfind(arg1, "dies.") and RTT_TargetsExist()) then
       local dead = string.gsub(arg1, " dies.", "");
-      local t = RTT_GetExistingTargets();
-        for k, v in pairs(t) do
-          if(RTT_Symbols[v].target == dead) then
-            RTT_KillBar(v);
+        for k, v in pairs(RTT_Symbols) do
+          if(RTT_Symbols[k].target == dead) then
+            RTT_KillBar(k);
           end
         end
     end

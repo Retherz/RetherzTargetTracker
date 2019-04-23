@@ -77,8 +77,7 @@ function RTT_TestTarget()
       if(RTT_PlayerHasPermission()) then
         RTT_SendSetTarget("target", i);
       else
-        local c = UnitName("target");
-        RTT_ActivateBar(i, c);
+        RTT_ActivateBar(i, UnitName("target"));
       end
     elseif(i ~= nil and UnitIsFriend("target", "player")) then
       RTT_Remove("target");

@@ -76,6 +76,7 @@ function RTT_CreateBars()
     else
       return
     end
+    RTT_TestTarget();
     RTT_SpellCastSent();
     RTT_UpdateHealth();
     RTT_DebuffTestTarget();
