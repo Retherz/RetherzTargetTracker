@@ -16,7 +16,6 @@ function RTT_CreateGUIFrame()
   f:SetWidth((BarWidth + Border * 2));
   f:SetHeight((BarHeight * 8 + Padding * 7 + Border * 2));
   RTT_Frame:SetPoint("TOPRIGHT", UIParent, "BOTTOMLEFT", RetherzTargetTracker.X, RetherzTargetTracker.Y);
-	f:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background"});
   f:SetScale(RetherzTargetTracker.Scale / 100);
   if(not RetherzTargetTracker.Visible) then
     f:Hide();
@@ -26,6 +25,7 @@ function RTT_CreateGUIFrame()
 	  if not RTT_Frame.isMoving then
 	     RTT_Frame:StartMoving();
 	   RTT_Frame.isMoving = true;
+   	 RTT_Frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background"});
 	  end
 	end)
 	RTT_Frame:SetScript("OnMouseUp", function()
@@ -42,6 +42,7 @@ function RTT_CreateGUIFrame()
 	  if ( RTT_Frame.isMoving ) then
 	   RTT_Frame:StopMovingOrSizing();
 	   RTT_Frame.isMoving = false;
+   	 RTT_Frame:SetBackdrop(nil);
 	  end
   end)
 	f:SetBackdropColor(1,1,1,1);

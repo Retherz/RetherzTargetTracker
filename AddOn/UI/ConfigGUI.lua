@@ -258,6 +258,7 @@ function RTT_ConfigGUIToggle()
       RTT_ConfigFrame:Hide();
     	RTT_Frame:SetMovable(false);
     	RTT_Frame:EnableMouse(false);
+  	 RTT_Frame:SetBackdrop(nil);
         for i=1, 8 do
           local f = getglobal("RTT_Bar" .. i);
           f:Show();
@@ -266,6 +267,7 @@ function RTT_ConfigGUIToggle()
       RTT_ConfigFrame:Show();
     	RTT_Frame:SetMovable(true);
     	RTT_Frame:EnableMouse(true);
+  	 RTT_Frame:SetBackdrop({bgFile = "Interface\\DialogFrame\\UI-DialogBox-Gold-Background"});
         for i=1, 8 do
           local f = getglobal("RTT_Bar" .. i);
           f:Hide();
