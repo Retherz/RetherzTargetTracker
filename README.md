@@ -1,4 +1,4 @@
-# RetherzTargetTracker version: r4 (Added keybindings)
+# RetherzTargetTracker version: r5 (Added keybindings)
 Raid symbol targeting with debuff tracking.
 ```/rtt``` or ```/retherztargettracker``` to configure.
 ![example_image](https://i.imgur.com/uNzq1xa.png)
