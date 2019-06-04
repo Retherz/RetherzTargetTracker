@@ -79,7 +79,7 @@ function RTT_TestTarget()
       else
         RTT_ActivateBar(i, UnitName("target"));
       end
-    elseif(i ~= nil and UnitIsFriend("target", "player")) then
+    elseif(i ~= nil and UnitIsFriend("target", "player") and RTT_Symbols[i].state) then
       RTT_Remove("target");
     end
   end
