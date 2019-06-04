@@ -1,4 +1,4 @@
-# RetherzTargetTracker version: r3
+# RetherzTargetTracker version: r4 (Added keybindings)
 Raid symbol targeting with debuff tracking.
 ```/rtt``` or ```/retherztargettracker``` to configure.
 ![example_image](https://i.imgur.com/uNzq1xa.png)
@@ -26,3 +26,7 @@ The addon provides several commands for targeting.
 ```/run RTT_AssignNext()``` or ```/run RTT_AssignNextMO()``` will assign a symbol going from skull to star to your target or mouseover respectively.
 
 ```/run RTT_AssignFree()``` or ```/run RTT_AssignFreeMO()``` will assign an unused symbol to your target or mouseover respectively.
+
+
+# Keybindings
+![example_image](https://i.imgur.com/E5kJi64.png)
