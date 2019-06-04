@@ -85,7 +85,7 @@ end
 function RTT_ActivateBar(bar, name)
     bar = tonumber(bar);
     local o = getglobal("RTT_Bar" .. bar .. "NameLabel");
-    if(o == nil) then
+    if(o == nil or tonumber(name) ~= nil) then
       return
     end
     o:SetText(name);
